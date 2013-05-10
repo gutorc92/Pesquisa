@@ -1,0 +1,20 @@
+﻿
+# Please enter the commit message for your changes. Lines starting
+# with '#' will be ignored, and an empty message aborts the commit.
+# On branch master
+#
+# Initial commit
+#
+# Changes to be committed:
+#   (use "git rm --cached <file>..." to unstage)
+#
+#	new file:   .gitignore
+#	new file:   Pesquisa/build.xml
+#	new file:   Pesquisa/manifest.mf
+#	new file:   Pesquisa/nbproject/build-impl.xml
+#	new file:   Pesquisa/nbproject/genfiles.properties
+#	new file:   Pesquisa/nbproject/project.properties
+#	new file:   Pesquisa/nbproject/project.xml
+#	new file:   Pesquisa/src/pesquisa/Main.java
+#
+
