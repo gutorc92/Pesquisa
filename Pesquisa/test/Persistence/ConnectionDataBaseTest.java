@@ -2,6 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
+package Persistence;
 
 import org.junit.After;
 import org.junit.AfterClass;
@@ -9,29 +10,29 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
-import persistence.Util.ConstructorDataBase;
+import persistence.Util.ConnectionDataBase;
 
 /**
  *
  * @author Gustavo
  */
-public class ConstructorDataBaseTest {
+public class ConnectionDataBaseTest {
     
-    private ConstructorDataBase constructor;
+    ConnectionDataBase connection;
     
-    public ConstructorDataBaseTest() {
-        
-        
+    public ConnectionDataBaseTest() {
+    
     }
     
     @Test
-    public void testExecute(){
-        constructor = new ConstructorDataBase(ConstructorDataBase.MYSQL_DATABASE);
+    public void testNewInstance(){
         try{
-            constructor.execute();
+            connection = ConnectionDataBase.getInstance();
         }catch(Exception e){
             e.printStackTrace();
             fail();
         }
     }
+    
+  
 }
