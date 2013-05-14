@@ -20,6 +20,10 @@ public class ConstructorDataBase {
     private String tableForm;
     private String tableQuestion;
     private String tableOption;
+    private String tableTypeQuestion;
+    private String insertTypeQuestion;
+    private String useDataBase;
+    
     private int typeDatabase;
 
     private ConstructorDataBase() {
@@ -37,14 +41,17 @@ public class ConstructorDataBase {
         tableForm = properties.getProperty("tableForm");
         tableQuestion = properties.getProperty("tableQuestion");
         tableOption = properties.getProperty("tableOption");
+        tableTypeQuestion = properties.getProperty("tableTypeQuestion");
+        insertTypeQuestion = properties.getProperty("insertTypeQuestion");
+        useDataBase = properties.getProperty("useDataBase");
     }
 
     private Properties loadProperties() {
         Properties prop = new Properties();
         String nameProperties = "src\\resources\\";
 
-        switch (typeDatabase) {
-            case MYSQL_DATABASE:
+        switch (ConnectionDataBase.getTypeDataBase()) {
+            case ConnectionDataBase.MYSQL_DATABASE:
                 nameProperties += PROPERTIES_MYSQL;
                 break;
             default:
@@ -66,16 +73,18 @@ public class ConstructorDataBase {
 
     public void execute() throws Exception {
         TransactionDataBase trasaction = new TransactionDataBase();
-        AdapterDataBase adapter = getAdapter();
-        trasaction.setAdapter(adapter);
+       // AdapterDataBase adapter = getAdapter();
+        //trasaction.setAdapter(adapter);
         trasaction.beginTransction();
         try {
             //trasaction.executeSql(dropDataBase);
             trasaction.executeSql(createDataBase);
-            trasaction.executeSql("USE formularios");
+            trasaction.executeSql(useDataBase);
             trasaction.executeSql(tableForm);
             trasaction.executeSql(tableQuestion);
             trasaction.executeSql(tableOption);
+            trasaction.executeSql(tableTypeQuestion);
+            insertDataBase(trasaction, insertTypeQuestion);
             trasaction.commitTransction();
             ConnectionDataBase.setDatabaseCreated(true);
             
@@ -90,18 +99,26 @@ public class ConstructorDataBase {
         System.out.println(tableForm);
         System.out.println(tableOption);
         System.out.println(tableQuestion);
+        System.out.println(tableTypeQuestion);
         System.out.println();
 
     }
     
+    private void insertDataBase(TransactionDataBase transaction, String sql){
+        String inserts[] = sql.split(";");
+        for(int i = 0; i < inserts.length; i++){
+            transaction.executeSql(inserts[i]);
+        }
+    }
+    
     private AdapterDataBase getAdapter(){
-        switch(typeDatabase){
-            case MYSQL_DATABASE:
+        switch(ConnectionDataBase.getTypeDataBase()){
+            case ConnectionDataBase.MYSQL_DATABASE:
                 return new AdapterDataBaseMySql();
                 
         }
         return null;
     }
-    public static final int MYSQL_DATABASE = 1;
+    
     private final String PROPERTIES_MYSQL = "mySqlDataBase.properties";
 }

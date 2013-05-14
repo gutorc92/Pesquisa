@@ -9,6 +9,7 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
+import persistence.Util.ConnectionDataBase;
 import persistence.Util.ConstructorDataBase;
 
 /**
@@ -26,7 +27,7 @@ public class ConstructorDataBaseTest {
     
     @Test
     public void testExecute(){
-        constructor = new ConstructorDataBase(ConstructorDataBase.MYSQL_DATABASE);
+        constructor = new ConstructorDataBase(ConnectionDataBase.MYSQL_DATABASE);
         try{
             constructor.execute();
         }catch(Exception e){

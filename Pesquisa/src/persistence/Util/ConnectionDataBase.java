@@ -7,7 +7,6 @@ package persistence.Util;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.Properties;
-import static persistence.Util.ConstructorDataBase.MYSQL_DATABASE;
 import java.sql.Connection;
 import java.sql.DriverManager;
 
@@ -19,16 +18,19 @@ public class ConnectionDataBase {
 
     private static ConnectionDataBase connection;
     private Connection con = null;
+    private static int typeDataBase = -1;
     private String user;
     private String password;
     private String driver;
     private String server;
     private String database;
     private static boolean databaseCreated = false;
+    private String sTypeDataBase ;
 
     private void connect() {
         Properties properties = loadProperties();
         load(properties);
+        loadTypeDataBase();
         try {
             Class.forName(driver).newInstance();
             if(databaseCreated){
@@ -40,6 +42,14 @@ public class ConnectionDataBase {
             e.printStackTrace();
         }
         
+    }
+    
+    private void loadTypeDataBase(){
+       
+        if(sTypeDataBase.equals("mySql")){
+            typeDataBase = MYSQL_DATABASE;
+             System.out.println("String: "+sTypeDataBase);
+        }
     }
 
     public static void setDatabaseCreated(boolean databaseCreated) {
@@ -54,6 +64,8 @@ public class ConnectionDataBase {
         driver = properties.getProperty("driver");
         server = properties.getProperty("server");
         database = properties.getProperty("database");
+        sTypeDataBase = properties.getProperty("typdeDatabase");
+        System.out.println("STypeDataBase" + sTypeDataBase);
     }
 
     private Properties loadProperties() {
@@ -95,4 +107,13 @@ public class ConnectionDataBase {
         return connection;
         
     }
+
+    public static int getTypeDataBase() {
+        return typeDataBase;
+    }
+
+    
+    
+    public static final int MYSQL_DATABASE = 1;
+    
 }

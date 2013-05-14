@@ -10,7 +10,13 @@ package persistence.Util;
  */
 public class TransactionDataBase {
     
-    private AdapterDataBase adapter = null;
+    private AdapterDataBase adapter;
+
+    public TransactionDataBase() {
+        adapter = FactoryAdapter.getAdpater();
+    }
+    
+    
     
     public void executeSql(String Sql){
         

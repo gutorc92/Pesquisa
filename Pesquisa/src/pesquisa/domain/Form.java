@@ -33,6 +33,11 @@ public class Form {
         this.questions = questions;
     }
 
+    public Form() {
+    }
+    
+    
+
     public long getId() {
         return id;
     }
@@ -64,6 +69,33 @@ public class Form {
     public void setQuestions(List<Question> questions) {
         this.questions = questions;
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        if(obj == null || !(obj instanceof Form)){
+            return false;
+        }
+        
+        Form form = (Form)obj;
+        if(form.getId() == id && form.getDescription() == description && form.getTitle() == title && form.getQuestions().equals(questions)){
+            return true;
+        }
+        
+        return false;
+        
+    }
+
+    @Override
+    protected Object clone() throws CloneNotSupportedException {
+        Form newForm = new Form();
+        newForm.setId(id);
+        newForm.setDescription(description);
+        newForm.setTitle(title);
+        newForm.setQuestions(questions);
+        return newForm;
+    }
+    
+    
     
     
     
