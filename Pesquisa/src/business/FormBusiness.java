@@ -5,7 +5,7 @@
 package business;
 
 import java.util.List;
-import pesquisa.domain.Form;
+import search.domain.Form;
 
 /**
  *
