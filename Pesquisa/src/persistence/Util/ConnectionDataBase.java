@@ -9,9 +9,10 @@ import java.io.IOException;
 import java.util.Properties;
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.SQLException;
 
 /**
- *
+ * Class for connection data base
  * @author Gustavo
  */
 public class ConnectionDataBase {
@@ -50,12 +51,7 @@ public class ConnectionDataBase {
             typeDataBase = MYSQL_DATABASE;
              System.out.println("String: "+sTypeDataBase);
         }
-    }
-
-    public static void setDatabaseCreated(boolean databaseCreated) {
-        ConnectionDataBase.databaseCreated = databaseCreated;
-    }
-    
+    }    
     
 
     private void load(Properties properties) {
@@ -65,7 +61,7 @@ public class ConnectionDataBase {
         server = properties.getProperty("server");
         database = properties.getProperty("database");
         sTypeDataBase = properties.getProperty("typdeDatabase");
-        System.out.println("STypeDataBase" + sTypeDataBase);
+        databaseCreated = Boolean.parseBoolean(properties.getProperty("databaseCreated"));
     }
 
     private Properties loadProperties() {
@@ -111,6 +107,11 @@ public class ConnectionDataBase {
     public static int getTypeDataBase() {
         return typeDataBase;
     }
+    
+    public static void closeConnection() throws SQLException{
+        connection.getCon().close();
+        connection = null;  
+    } 
 
     
     

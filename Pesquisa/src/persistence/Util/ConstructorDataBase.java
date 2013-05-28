@@ -5,7 +5,9 @@
 package persistence.Util;
 
 import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.util.Properties;
 import java.util.logging.Logger;
 
@@ -73,11 +75,8 @@ public class ConstructorDataBase {
 
     public void execute() throws Exception {
         TransactionDataBase trasaction = new TransactionDataBase();
-       // AdapterDataBase adapter = getAdapter();
-        //trasaction.setAdapter(adapter);
         trasaction.beginTransction();
         try {
-            //trasaction.executeSql(dropDataBase);
             trasaction.executeSql(createDataBase);
             trasaction.executeSql(useDataBase);
             trasaction.executeSql(tableForm);
@@ -86,7 +85,8 @@ public class ConstructorDataBase {
             trasaction.executeSql(tableTypeQuestion);
             insertDataBase(trasaction, insertTypeQuestion);
             trasaction.commitTransction();
-            ConnectionDataBase.setDatabaseCreated(true);
+            updatedDatabaseProperties();
+            ConnectionDataBase.closeConnection();
             
            
         } catch (Exception e) {
@@ -102,6 +102,20 @@ public class ConstructorDataBase {
         System.out.println(tableTypeQuestion);
         System.out.println();
 
+    }
+    
+    public void updatedDatabaseProperties() throws IOException {
+        Properties properties = new Properties();
+        
+        String fileProperties = "src\\persistence\\Util\\database.properties";
+        
+        properties.load(new FileInputStream(fileProperties));
+
+        properties.setProperty("databaseCreated", "true");
+        
+        properties.save(new FileOutputStream(fileProperties),"");
+        
+        
     }
     
     private void insertDataBase(TransactionDataBase transaction, String sql){

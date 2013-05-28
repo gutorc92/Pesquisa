@@ -20,6 +20,8 @@ public class Form {
 
     private List<Question> questions;
     
+    private int quatityMinimum;
+    
     public Form(long id, String title, String description) {
         this.id = id;
         this.title = title;
@@ -77,13 +79,24 @@ public class Form {
         }
         
         Form form = (Form)obj;
-        if(form.getId() == id && form.getDescription() == description && form.getTitle() == title && form.getQuestions().equals(questions)){
+        if(form.getId() == id && form.getDescription() == description && form.getTitle() == title && form.getQuatityMinimum() == quatityMinimum
+                && form.getQuestions().equals(questions)){
             return true;
         }
         
         return false;
         
     }
+
+    public int getQuatityMinimum() {
+        return quatityMinimum;
+    }
+
+    public void setQuatityMinimum(int quatityMinimum) {
+        this.quatityMinimum = quatityMinimum;
+    }
+    
+    
 
     @Override
     protected Object clone() throws CloneNotSupportedException {
@@ -92,6 +105,7 @@ public class Form {
         newForm.setDescription(description);
         newForm.setTitle(title);
         newForm.setQuestions(questions);
+        newForm.setQuatityMinimum(quatityMinimum);
         return newForm;
     }
     

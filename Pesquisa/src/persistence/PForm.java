@@ -24,7 +24,7 @@ public class PForm extends Persistence implements IPersistence<Form>{
     
     @Override
     public void save(Form entity) throws ExceptionDataBase {
-        insert += "'" + entity.getTitle() + "'" + "'" + entity.getDescription() + "');"; 
+        insert += "'" + entity.getTitle() + "'" + "'" + entity.getDescription() + "', " + entity.getQuatityMinimum()  + " );"; 
         
         try{
             transaction.beginTransction();
@@ -41,15 +41,15 @@ public class PForm extends Persistence implements IPersistence<Form>{
 
     @Override
     public void loadSqls() {
-        insert = "INSERT INTO form(title,description) VALUES (";
-        update = "UPDATE form";
-        delete = "DELETE FROM form";
+        insert = "INSERT INTO form(title,description,quantityMinimum) VALUES (";
+        update = "UPDATE form SET ";
+        delete = "DELETE FROM form WHERE idForm = ";
         
     }
 
     @Override
     public void save(Form entity, TransactionDataBase transaction) throws ExceptionDataBase {
-        insert += "'" + entity.getTitle() + "'" + "'" + entity.getDescription() + "');"; 
+        insert += "'" + entity.getTitle() + "'" + "'" + entity.getDescription() + "', " + entity.getQuatityMinimum()  + " );"; 
         
         try{
             transaction.executeSql(insert);
@@ -62,12 +62,30 @@ public class PForm extends Persistence implements IPersistence<Form>{
 
     @Override
     public void update(Form entityNew, Form entityOld) throws ExceptionDataBase {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        if(entityNew.equals(entityOld)){
+            return ;
+        }else{
+            if(entityNew.getId() != entityOld.getId()){
+                return ;
+            }else{
+                if(!entityNew.getDescription().equals(entityOld.getDescription()) ){
+                    update += " descriptionForm = '" + entityNew.getDescription() + "'";
+                }
+                if(!entityNew.getTitle().equals(entityOld.getTitle()) ){
+                    update += " titleForm = '" + entityNew.getDescription() + "'";
+                }
+                if(entityNew.getQuatityMinimum() !=  entityOld.getQuatityMinimum()){
+                    update +=  " quantityMinimum = " + entityNew.getQuatityMinimum(); 
+                }
+            }
+        }
     }
 
     @Override
     public void delete(Form entity) throws ExceptionDataBase {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        delete += entity.getId();
+        transaction.executeSql(delete);
+        
     }
 
     @Override
